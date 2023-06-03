@@ -14,7 +14,8 @@ func startRepl() {
 	fmt.Println("Gotta catch 'em all!")
 
 	scanner := bufio.NewScanner(os.Stdin)
-
+	commandMap := getCommands()
+	
 	for {
 		fmt.Print("> ")
 		scanner.Scan()

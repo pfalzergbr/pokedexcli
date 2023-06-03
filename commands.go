@@ -17,11 +17,14 @@ func commandHelp() error {
 	fmt.Println("Here's a list of commands:")
 	fmt.Println("")
 
-	fmt.Println("help: Show this help message")
-	fmt.Println("exit: Close your cool console Pokedex")
-	// for _, command := range commandMap {
-	// 	fmt.Printf("%s: %s", command.name, command.description)
-	// }
+	// fmt.Println("- help: Show this help message")
+	// fmt.Println("- exit: Close your cool console Pokedex")
+
+	commandMap := getCommands()
+
+	for _, command := range commandMap {
+		fmt.Printf("%s: %s\n", command.name, command.description)
+	}
 
 	return nil
 }
@@ -32,15 +35,18 @@ func commandExit() error {
 	return nil
 }
 
-var commandMap = map[string]cliCommand{
-	"help": {
-		name:        "help",
-		description: "Show this help message",
-		callback:    commandHelp,
-	},
-	"exit": {
-		name:        "exit",
-		description: "Close your cool console Pokedex",
-		callback:    commandExit,
-	},
+func getCommands() map[string]cliCommand {
+	return map[string]cliCommand{
+		"help": {
+			name:        "help",
+			description: "Show this help message",
+			callback:    commandHelp,
+		},
+		"exit": {
+			name:        "exit",
+			description: "Close your cool console Pokedex",
+			callback:    commandExit,
+		},
+	}
+
 }
