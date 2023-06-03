@@ -32,13 +32,15 @@ func startRepl() {
 			continue
 		}
 
-		command, ok := commandMap[parsedCommand[0]]
+		command := parsedCommand[0]
+
+		c, ok := commandMap[command]
 		if !ok {
 			fmt.Println("Unknown command! Type 'help' for a list of commands.")
 			continue
 		}
 
-		err := command.callback()
+		err := c.callback()
 		if err != nil {
 			fmt.Println("Error executing command: ", err)
 			continue
