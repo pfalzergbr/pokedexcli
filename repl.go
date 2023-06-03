@@ -20,19 +20,19 @@ func startRepl() {
 		scanner.Scan()
 
 		text := scanner.Text()
-
+		
 		if scanner.Err() != nil {
 			fmt.Println("Error reading input: ", scanner.Err())
 			continue
 		}
 
-		if len(text) == 0 {
+		parsedCommand := parseInput(text)
+		
+		if len(parsedCommand) == 0 {
 			continue
 		}
 
-		fmt.Println(text)
-
-		command, ok := commandMap[text]
+		command, ok := commandMap[parsedCommand[0]]
 		if !ok {
 			fmt.Println("Unknown command! Type 'help' for a list of commands.")
 			continue
@@ -46,7 +46,7 @@ func startRepl() {
 	}
 }
 
-func cleanInput(str string) []string {
+func parseInput(str string) []string {
 	lower := strings.ToLower(str)
 	tokens := strings.Fields(lower)
 	return tokens

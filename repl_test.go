@@ -12,7 +12,7 @@ func TestCleanInput(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		actual := cleanInput(c.input)
+		actual := parseInput(c.input)
 		if len(actual) != len(c.expected) {
 			t.Errorf("the lengths are not equal: %v vs %v", actual, c.expected)
 			continue
