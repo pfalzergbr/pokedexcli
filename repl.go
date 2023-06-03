@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func startRepl() {
+func startRepl(cfg *config) {
 	fmt.Println("--=== Pokedex ===--")
 	fmt.Println("Gopher edition")
 	fmt.Println("")
@@ -15,7 +15,7 @@ func startRepl() {
 
 	scanner := bufio.NewScanner(os.Stdin)
 	commandMap := getCommands()
-	
+
 	for {
 		fmt.Print("> ")
 		scanner.Scan()
@@ -41,7 +41,7 @@ func startRepl() {
 			continue
 		}
 
-		err := c.callback()
+		err := c.callback(cfg)
 		if err != nil {
 			fmt.Println("Error executing command: ", err)
 			continue
