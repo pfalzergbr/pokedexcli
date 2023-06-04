@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func commandMapb(cfg *config) error {
+func commandMapb(cfg *config, args ...string) error {
 	if cfg.prevLocationAreasURL == nil {
 		fmt.Println("No previous page!")
 		return nil

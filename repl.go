@@ -35,13 +35,19 @@ func startRepl(cfg *config) {
 
 		command := parsedCommand[0]
 
+		args := []string{}
+
+		if len(parsedCommand) > 1{	
+			args = parsedCommand[1:]
+		}
+
 		c, ok := commandMap[command]
 		if !ok {
 			fmt.Println("Unknown command! Type 'help' for a list of commands.")
 			continue
 		}
 
-		err := c.callback(cfg)
+		err := c.callback(cfg, args...)
 		if err != nil {
 			fmt.Println("Error executing command: ", err)
 			continue

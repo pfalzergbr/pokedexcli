@@ -16,7 +16,7 @@ func (c *Client) ListLocationAreas(pageUrl *string) (LocationAreasResp, error) {
 	if pageUrl != nil {
 		url = *pageUrl
 	}
-	// On cache hit, we can get all the data straight away. 
+	// On cache hit, we can get all the data straight away.
 	if cachedVal, ok := c.cache.Get(url); ok {
 		locationAreasResp := LocationAreasResp{}
 
@@ -66,3 +66,65 @@ func (c *Client) ListLocationAreas(pageUrl *string) (LocationAreasResp, error) {
 
 	return locationAreasResp, nil
 }
+
+// Get a specific location area
+func (c *Client) GetLocationArea(locationAreaName string) (LocationArea, error) {
+	// Put together a new url
+
+	endpoint := "/location-area/" + locationAreaName
+	url := baseURL + endpoint
+
+	// On cache hit, we can get all the data straight away.
+	if cachedVal, ok := c.cache.Get(url); ok {
+		locationArea := LocationArea{}
+
+		err := json.Unmarshal(cachedVal, &locationArea)
+
+		if err != nil {
+			return LocationArea{}, err
+		}
+
+		return locationArea, nil
+	}
+
+	// Create the request
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return LocationArea{}, err
+	}
+
+	// Execute the request by the client passed in
+	resp, err := c.httpClient.Do(req)
+
+	if err != nil {
+		return LocationArea{}, err
+	}
+	// Close the response body once alld done
+	defer resp.Body.Close()
+
+	// 400+ status code is an error, so we throw a custom one here
+	if resp.StatusCode > 399 {
+		return LocationArea{}, fmt.Errorf("bad status code %v", resp.StatusCode)
+	}
+
+	data, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return LocationArea{}, err
+	}
+
+	locationArea := LocationArea{}
+
+	// Add the successfully retrived data to the cache
+	c.cache.Add(url, data)
+	// Unmarshal the data into a LocationAreasResp struct
+	err = json.Unmarshal(data, &locationArea)
+	if err != nil {
+		return LocationArea{}, err
+	}
+
+	return locationArea, nil
+}
+
+// func makeGetRequest[T struct{}](c *Client, url string){
+
+// }
