@@ -24,9 +24,11 @@ func commandCatch(cfg *config, args ...string) error {
 		fmt.Printf("Failed to catch %s!\n", pokemonName)
 		return nil
 	}
+	// Add to the map if we caught it. 
+	cfg.caughtPokemon[pokemonName] = pokemon
 
 	fmt.Printf("Caught %s!\n", pokemonName)
-	
+
 	// fmt.Printf("Pokemon in %s:\n", LocationArea.Name)
 	// fmt.Println("---------------------")
 
