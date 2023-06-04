@@ -16,6 +16,18 @@ func (c *Client) ListLocationAreas(pageUrl *string) (LocationAreasResp, error) {
 	if pageUrl != nil {
 		url = *pageUrl
 	}
+	// On cache hit, we can get all the data straight away. 
+	if cachedVal, ok := c.cache.Get(url); ok {
+		locationAreasResp := LocationAreasResp{}
+
+		err := json.Unmarshal(cachedVal, &locationAreasResp)
+
+		if err != nil {
+			return LocationAreasResp{}, err
+		}
+
+		return locationAreasResp, nil
+	}
 
 	// Create the request
 	req, err := http.NewRequest("GET", url, nil)
@@ -43,6 +55,9 @@ func (c *Client) ListLocationAreas(pageUrl *string) (LocationAreasResp, error) {
 	}
 
 	locationAreasResp := LocationAreasResp{}
+
+	// Add the successfully retrived data to the cache
+	c.cache.Add(url, data)
 	// Unmarshal the data into a LocationAreasResp struct
 	err = json.Unmarshal(data, &locationAreasResp)
 	if err != nil {
