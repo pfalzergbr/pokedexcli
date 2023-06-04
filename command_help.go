@@ -13,6 +13,8 @@ func commandHelp(cfg *config) error {
 	for _, command := range commandMap {
 		fmt.Printf("%s: %s\n", command.name, command.description)
 	}
+	
+	fmt.Println("")
 
 	return nil
 }

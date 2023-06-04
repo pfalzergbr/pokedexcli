@@ -17,7 +17,7 @@ func startRepl(cfg *config) {
 	commandMap := getCommands()
 
 	for {
-		fmt.Print("> ")
+		fmt.Print("Pokedex > ")
 		scanner.Scan()
 
 		text := scanner.Text()
