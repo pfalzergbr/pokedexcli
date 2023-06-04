@@ -2,17 +2,16 @@ package main
 
 import (
 	"fmt"
-	"log"
 )
 
 func commandMapb(cfg *config) error {
-	if(cfg.prevLocationAreasURL == nil) {
+	if cfg.prevLocationAreasURL == nil {
 		fmt.Println("No previous page!")
 		return nil
 	}
 	resp, err := cfg.pokeapiClient.ListLocationAreas(cfg.prevLocationAreasURL)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	cfg.nextLocationAreasURL = resp.Next

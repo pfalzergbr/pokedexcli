@@ -10,13 +10,13 @@ import (
 func (c *Client) ListLocationAreas(pageUrl *string) (LocationAreasResp, error) {
 	// Put together a new url
 
-
 	endpoint := "/location-area"
 	url := baseURL + endpoint
 
 	if pageUrl != nil {
 		url = *pageUrl
 	}
+
 	// Create the request
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
