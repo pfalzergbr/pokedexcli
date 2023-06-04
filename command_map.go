@@ -15,7 +15,6 @@ func commandMap(cfg *config) error {
 
 	for _, area := range resp.Results {
 		fmt.Println(area.Name)
-		fmt.Println(area.URL)
 	}
 
 	return nil
